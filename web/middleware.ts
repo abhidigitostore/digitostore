@@ -1,7 +1,23 @@
 // web/middleware.ts
-export { default } from "next-auth/middleware";
+import { withAuth } from 'next-auth/middleware';
+
+export default withAuth(
+  function middleware(req) {
+    // This log will run for every request to the /admin page
+    console.log('MIDDLEWARE: Path:', req.nextUrl.pathname);
+    console.log('MIDDLEWARE: Sees token:', req.nextauth.token);
+  },
+  {
+    callbacks: {
+      authorized: ({ token }) => {
+        // This determines if the user is authorized. The redirect happens if this returns false.
+        console.log('MIDDLEWARE: "authorized" callback. Token exists:', !!token);
+        return !!token;
+      },
+    },
+  }
+);
 
 export const config = {
-  // This matcher ensures the middleware runs only on routes starting with /admin
-  matcher: ["/admin/:path*"],
+  matcher: ['/admin/:path*'],
 };
