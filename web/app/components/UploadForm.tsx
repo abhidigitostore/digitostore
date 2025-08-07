@@ -15,7 +15,7 @@ export default function UploadForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
     reset,
   } = useForm<Inputs>();
 

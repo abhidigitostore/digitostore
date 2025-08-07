@@ -4,8 +4,12 @@
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Toaster, toast } from 'react-hot-toast';
 
-// This tells TypeScript that the Razorpay object will be available on the window
-declare const window: any;
+// This is the corrected way to add the Razorpay property to the window object
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
 
 interface FormInputs {
   name: string;
@@ -32,105 +36,19 @@ export default function RequestForm({ documentTitle, documentId, onClose }: Requ
     },
   });
 
-  // const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
-  //   try {
-  //     // 1. Fetch order details from our API
-  //     const response = await fetch('/api/initiate-payment', {
-  //       method: 'POST',
-  //     });
-  
-  //     const result = await response.json();
-  
-  //     if (!response.ok) {
-  //       throw new Error(result.error || 'Failed to create order.');
-  //     }
-  
-  //     // 2. Configure Razorpay Checkout options
-  //     const options = {
-  //       key: result.keyId,
-  //       amount: result.amount,
-  //       currency: 'INR',
-  //       name: 'Client Brand Name', // You can replace this with a prop
-  //       description: `Payment for ${documentTitle}`,
-  //       order_id: result.orderId,
-  //       // This handler function runs after a successful payment
-  //       // handler: function (response: any) {
-  //       //   console.log('Payment successful:', response);
-  //       //   toast.success('Payment successful!');
-  //       //   // Day 5: We will send this response to our server for verification
-  //       //   // For now, we can just close the modal
-  //       //   onClose(); 
-  //       // },
-  //       handler: async function (response: any) {
-  //         try {
-  //           // Send the payment response to our verification API
-  //           const verificationResponse = await fetch('/api/payment-verification', {
-  //             method: 'POST',
-  //             headers: {
-  //               'Content-Type': 'application/json',
-  //             },
-  //             body: JSON.stringify({
-  //               razorpay_order_id: response.razorpay_order_id,
-  //               razorpay_payment_id: response.razorpay_payment_id,
-  //               razorpay_signature: response.razorpay_signature,
-  //             }),
-  //           });
-
-  //           const result = await verificationResponse.json();
-
-  //           if (result.success) {
-  //             toast.success('Payment verified successfully!');
-  //             // Redirect to success page
-  //             window.location.href = '/payment-success';
-  //           } else {
-  //             throw new Error(result.error || 'Payment verification failed.');
-  //           }
-  //         } catch (error) {
-  //           console.error('Verification Error:', error);
-  //           toast.error(String(error));
-  //           // Redirect to failure page
-  //           window.location.href = '/payment-failure';
-  //         }
-  //       },
-  //       prefill: {
-  //         name: formData.name,
-  //         email: formData.email,
-  //       },
-  //       theme: {
-  //         color: '#3399cc', // You can replace this with your client's brand color
-  //       },
-  //     };
-  
-  //     // 3. Open the Razorpay Checkout modal
-  //     const rzp = new window.Razorpay(options);
-  //     rzp.open();
-  
-  //   } catch (error) {
-  //     console.error('Submission Error:', error);
-  //     toast.error(String(error));
-  //   }
-  // };
-    const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
+  const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
     console.log('Faking payment submission...');
 
-    // This is a fake success response from Razorpay
     const fakeRazorpayResponse = {
       razorpay_payment_id: `fake_pay_${Date.now()}`,
       razorpay_order_id: `fake_order_${Date.now()}`,
       razorpay_signature: 'fake_signature',
     };
 
-    // We are now calling the verification logic directly
     try {
-      // const verificationResponse = await fetch('/api/payment-verification', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(fakeRazorpayResponse),
-      // });
       const verificationResponse = await fetch('/api/payment-verification', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        // Pass the original form data and document ID along with the payment details
         body: JSON.stringify({
           ...fakeRazorpayResponse,
           formData,
@@ -154,6 +72,7 @@ export default function RequestForm({ documentTitle, documentId, onClose }: Requ
   };
 
   return (
+    // ... the rest of your JSX form is unchanged
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
       <Toaster />
       <div className="bg-white rounded-lg p-8 w-full max-w-md">
