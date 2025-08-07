@@ -1,8 +1,9 @@
 // web/app/api/auth/[...nextauth]/route.ts
-import NextAuth from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-const handler = NextAuth({
+// Define your auth options in a separate object
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -11,22 +12,27 @@ const handler = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        // This is where you check if the credentials are valid
         if (
           credentials?.username === process.env.ADMIN_USERNAME &&
           credentials?.password === process.env.ADMIN_PASSWORD
         ) {
-          // Any object returned will be saved in the session
           return { id: '1', name: 'Admin' };
         }
-        // Return null if user data could not be retrieved
         return null;
       },
     }),
   ],
   pages: {
-    signIn: '/login', // Redirect users to our custom login page
+    signIn: '/login',
   },
-});
+  // You can keep the session timeout logic here for v4
+  session: {
+    strategy: 'jwt',
+    maxAge: 15 * 60, // 15 minutes
+  },
+};
+
+// Pass the options to NextAuth
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
