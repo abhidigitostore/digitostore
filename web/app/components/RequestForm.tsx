@@ -7,6 +7,7 @@ import { Toaster, toast } from 'react-hot-toast';
 // This is the corrected way to add the Razorpay property to the window object
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Razorpay: any;
   }
 }
