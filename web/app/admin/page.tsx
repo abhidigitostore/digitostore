@@ -3,11 +3,10 @@
 
 import { signOut } from 'next-auth/react';
 import { useState, useEffect } from 'react';
-import { client } from '@/sanity/client'; // Our read-only client
+import { client } from '@/sanity/client';
 import SubmissionsTable from '../components/SubmissionsTable';
-import Link from 'next/link'; // to add upload page as seperate link
+import Link from 'next/link';
 
-// Define the shape of a single submission
 interface Submission {
   _id: string;
   name: string;
@@ -20,8 +19,6 @@ export default function AdminPage() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
 
   useEffect(() => {
-    // This GROQ query fetches all submissions and also "follows" the
-    // reference to the requested document to get its title.
     const query = `*[_type == "submissions"] | order(_createdAt desc) {
       _id,
       name,
@@ -38,17 +35,17 @@ export default function AdminPage() {
     fetchSubmissions();
   }, []);
 
-  // Calculate total completed downloads
   const completedCount = submissions.filter(
     (s) => s.paymentStatus === 'completed'
   ).length;
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between items-center mb-8">
+    // Change padding to be responsive
+    <div className="p-4 md:p-8">
+      {/* Change flex direction to be responsive */}
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         <div className="flex gap-4">
-          {/* Add this button */}
           <Link
             href="/admin/upload"
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"

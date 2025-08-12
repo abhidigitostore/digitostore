@@ -1,6 +1,5 @@
 // web/app/components/RequestForm.tsx
 'use client';
-
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Toaster, toast } from 'react-hot-toast';
 
@@ -11,7 +10,11 @@ declare global {
     Razorpay: any;
   }
 }
-
+interface RazorpayResponse {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
+}
 interface FormInputs {
   name: string;
   email: string;
@@ -26,7 +29,7 @@ interface RequestFormProps {
 }
 
 export default function RequestForm({ documentTitle, documentId, onClose }: RequestFormProps) {
-  const {
+    const {
     register,
     handleSubmit,
     control,
@@ -38,42 +41,49 @@ export default function RequestForm({ documentTitle, documentId, onClose }: Requ
   });
 
   const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
-    console.log('Faking payment submission...');
-
-    const fakeRazorpayResponse = {
-      razorpay_payment_id: `fake_pay_${Date.now()}`,
-      razorpay_order_id: `fake_order_${Date.now()}`,
-      razorpay_signature: 'fake_signature',
-    };
-
     try {
-      const verificationResponse = await fetch('/api/payment-verification', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...fakeRazorpayResponse,
-          formData,
-          documentId,
-        }),
-      });
+      const orderResponse = await fetch('/api/initiate-payment', { method: 'POST' });
+      const orderResult = await orderResponse.json();
+      if (!orderResponse.ok) throw new Error(orderResult.error);
 
-      const result = await verificationResponse.json();
-
-      if (result.success) {
-        toast.success('Payment verified successfully! (Mocked)');
-        window.location.href = '/payment-success';
-      } else {
-        throw new Error(result.error || 'Mocked payment verification failed.');
-      }
+      const options = {
+        key: orderResult.keyId,
+        amount: orderResult.amount,
+        currency: 'INR',
+        name: 'Your Client Brand',
+        description: `Payment for ${documentTitle}`,
+        order_id: orderResult.orderId,
+        handler: async function (response: RazorpayResponse) {
+          try {
+            const verificationResponse = await fetch('/api/payment-verification', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ...response, formData, documentId }),
+            });
+            const verificationResult = await verificationResponse.json();
+            if (verificationResult.success) {
+              toast.success('Payment verified successfully!');
+              window.location.href = '/payment-success';
+            } else {
+              throw new Error(verificationResult.error);
+            }
+          } catch (error) {
+            toast.error(String(error));
+            window.location.href = '/payment-failure';
+          }
+        },
+        prefill: { name: formData.name, email: formData.email },
+        theme: { color: '#3399cc' },
+      };
+      const rzp = new window.Razorpay(options);
+      rzp.open();
     } catch (error) {
-      console.error('Verification Error:', error);
+      console.error('Submission Error:', error);
       toast.error(String(error));
-      window.location.href = '/payment-failure';
     }
   };
 
   return (
-    // ... the rest of your JSX form is unchanged
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
       <Toaster />
       <div className="bg-white rounded-lg p-8 w-full max-w-md">
