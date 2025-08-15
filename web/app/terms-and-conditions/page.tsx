@@ -12,7 +12,7 @@ export default function TermsAndConditionsPage() {
         
         <h2 className="text-2xl font-semibold pt-4">1. Use of Data</h2>
         <p>
-          The data files purchased from this website are provided for your use as indicated at the time of purchase "Personal Use" or "Business Use". You agree not to resell, redistribute, or use the data for any illegal or malicious purposes.
+          The data files purchased from this website are provided for your use as indicated at the time of purchase <b>Personal Use</b> or <b>Business Use</b>. You agree not to resell, redistribute, or use the data for any illegal or malicious purposes.
         </p>
         
         <h2 className="text-2xl font-semibold pt-4">2. Payment and Delivery</h2>
