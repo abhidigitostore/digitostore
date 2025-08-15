@@ -11,6 +11,7 @@ export default function ContactUsPage() {
         <h2 className="text-2xl font-semibold pt-4">Our Contact Information</h2>
         <ul>
           <li><strong>Email:</strong>abhi.digitostore@gmail.com</li>
+          <li><strong>Website:</strong>https://www.autometa-ai.com/</li>
         </ul>
       </div>
     </div>

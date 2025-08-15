@@ -14,6 +14,7 @@ export default function Footer() {
           <Link href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</Link>
           <Link href="/cancellation-and-refunds" className="text-blue-600 hover:underline">Refunds</Link>
           <Link href="/contact-us" className="text-blue-600 hover:underline">Contact Us</Link>
+          <Link href="/shipping-policy" className="text-blue-600 hover:underline">Shipping Policy</Link>
         </div>
 
         {/* Admin dashboard login link */}
