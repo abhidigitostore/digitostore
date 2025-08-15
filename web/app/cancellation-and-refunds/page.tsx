@@ -17,7 +17,8 @@ export default function CancellationAndRefundsPage() {
         <h2 className="text-2xl font-semibold pt-4">Cancellation</h2>
         <p>If you have initiated a payment but have not completed it, you can simply cancel the process or close the payment window. No charges will be made, and no file will be delivered. Your request information may be stored with a "pending" status for internal analytics.</p>
 
-        If you have any questions about our refund policy, please contact us at abhi.digitostore@gmail.com.
+        <h2 className="text-2xl font-semibold pt-4">6. Contact</h2>
+        <p>For any questions regarding these terms, please contact us at abhi.digitostore@gmail.com</p>
         
       </div>
     </div>

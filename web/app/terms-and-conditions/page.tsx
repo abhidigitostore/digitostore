@@ -12,7 +12,7 @@ export default function TermsAndConditionsPage() {
         
         <h2 className="text-2xl font-semibold pt-4">1. Use of Data</h2>
         <p>
-          The data files purchased from this website are provided for your use as indicated at the time of purchase ("Personal Use" or "Business Use"). You agree not to resell, redistribute, or use the data for any illegal or malicious purposes.
+          The data files purchased from this website are provided for your use as indicated at the time of purchase "Personal Use" or "Business Use". You agree not to resell, redistribute, or use the data for any illegal or malicious purposes.
         </p>
         
         <h2 className="text-2xl font-semibold pt-4">2. Payment and Delivery</h2>
@@ -27,7 +27,7 @@ export default function TermsAndConditionsPage() {
         <p>As stated in our Refund Policy, all sales of digital products are final and non-refundable.</p>
 
         <h2 className="text-2xl font-semibold pt-4">5. Limitation of Liability</h2>
-        <p>AutoMeta AI is not liable for any direct, indirect, or consequential damages arising from the use or inability to use the data provided. The data is provided on an "as is" basis without warranties of any kind.</p>
+        <p>AutoMeta AI is not liable for any direct, indirect, or consequential damages arising from the use or inability to use the data provided. The data is provided on an <b>as is</b> basis without warranties of any kind.</p>
 
         <h2 className="text-2xl font-semibold pt-4">6. Contact</h2>
         <p>For any questions regarding these terms, please contact us at abhi.digitostore@gmail.com</p>
