@@ -9,12 +9,12 @@ export default function TermsAndConditionsPage() {
           <strong>Last updated: August 15, 2025</strong>
         </p>
         <p>
-          [Your client needs to provide the actual content for the Terms and Conditions here. 
-          This is just placeholder text.]
+          Users are completely responsible for how they are using the Data collected from our website.
+          Autometa AI is not responsible for any data misuse.
         </p>
         <h2 className="text-2xl font-semibold pt-4">1. Acceptance of Terms</h2>
         <p>
-          [Details about acceptance of terms...]
+          Use the collected data only for ethical actions.
         </p>
       </div>
     </div>

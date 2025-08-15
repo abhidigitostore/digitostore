@@ -9,12 +9,12 @@ export default function CancellationAndRefundsPage() {
           <strong>Last updated: August 15, 2025</strong>
         </p>
         <p>
-          [Your client needs to provide the actual content for the Cancellation & Refund Policy here. 
-          This is just placeholder text.]
+          Your client needs to provide the actual content for the Cancellation & Refund Policy here. 
+          This is just placeholder text.
         </p>
         <h2 className="text-2xl font-semibold pt-4">Digital Products</h2>
         <p>
-          [Details about the refund policy for digital goods...]
+          Details about the refund policy for digital goods...
         </p>
       </div>
     </div>

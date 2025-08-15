@@ -14,7 +14,7 @@ export default function ShippingPolicyPage() {
         </p>
         <h2 className="text-2xl font-semibold pt-4">Delivery Timeframe</h2>
         <p>
-          Your digital file will be delivered to the email address provided during checkout (Request form for file) immediately after a successful payment.
+          Your digital file will be delivered to the email address provided during checkout immediately after a successful payment.
         </p>
       </div>
     </div>

@@ -9,12 +9,12 @@ export default function PrivacyPolicyPage() {
           <strong>Last updated: August 15, 2025</strong>
         </p>
         <p>
-          [Your client needs to provide the actual content for the Privacy Policy here. 
-          This is just placeholder text.]
+          Your client needs to provide the actual content for the Privacy Policy here. 
+          This is just placeholder text.
         </p>
         <h2 className="text-2xl font-semibold pt-4">Information We Collect</h2>
         <p>
-          [Details about data collection...]
+          Details about data collection...
         </p>
       </div>
     </div>

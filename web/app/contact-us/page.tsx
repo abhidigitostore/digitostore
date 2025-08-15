@@ -10,8 +10,7 @@ export default function ContactUsPage() {
         </p>
         <h2 className="text-2xl font-semibold pt-4">Our Contact Information</h2>
         <ul>
-          <li><strong>Email:</strong> [Client's Support Email Address]</li>
-          <li><strong>Address:</strong> [Client's Physical Address, if applicable]</li>
+          <li><strong>Email:</strong>abhi.digitostore@gmail.com</li>
         </ul>
       </div>
     </div>
