@@ -22,7 +22,7 @@ const transporter = nodemailer.createTransport({
 
 export async function POST(request: NextRequest) {
   try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, formData, documentId } = await request.json();
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = await request.json();
     const key_secret = process.env.RAZORPAY_KEY_SECRET!;
 
     const hmac = crypto.createHmac('sha256', key_secret);
@@ -30,26 +30,25 @@ export async function POST(request: NextRequest) {
     const generated_signature = hmac.digest('hex');
 
     if (generated_signature === razorpay_signature) {
-      // Signature is authentic, proceed with fulfillment
-      const query = `*[_id == $documentId][0]{"fileUrl": dataFile.asset->url}`;
-      const doc = await writeClient.fetch(query, { documentId });
-      if (!doc || !doc.fileUrl) throw new Error('File not found in Sanity');
+      // 1. Find the pending submission using the Order ID
+      const subQuery = `*[_type == "submissions" && orderId == $orderId][0]`;
+      const submission = await writeClient.fetch(subQuery, { orderId: razorpay_order_id });
+      
+      if (!submission) throw new Error('Submission not found');
+      
+      // 2. Update its status to "completed"
+      await writeClient.patch(submission._id).set({ paymentStatus: 'completed' }).commit();
 
-      await writeClient.create({
-        _type: 'submissions',
-        name: formData.name,
-        email: formData.email,
-        purpose: formData.purpose,
-        consent: formData.consent,
-        paymentStatus: 'completed',
-        requestedDoc: { _type: 'reference', _ref: documentId },
-      });
-
+      const docQuery = `*[_id == $docId][0]{"fileUrl": dataFile.asset->url}`;
+      const doc = await writeClient.fetch(docQuery, { docId: submission.requestedDoc._ref });
+      if (!doc || !doc.fileUrl) throw new Error('File not found');
+      
+      // 3. Send the email
       await transporter.sendMail({
-        from: `"Your Brand Name" <${process.env.GMAIL_EMAIL}>`,
-        to: formData.email,
-        subject: 'Your document is ready for download!',
-        html: `<h1>Thank you!</h1><p>Download your file here: <a href="${doc.fileUrl}?dl=">Download Now</a></p>`,
+          from: `"Your Brand Name" <${process.env.GMAIL_EMAIL}>`,
+          to: submission.email,
+          subject: 'Your document is ready for download!',
+          html: `<h1>Thank you!</h1><p>Download your file here: <a href="${doc.fileUrl}?dl=">Download Now</a></p>`,
       });
       return NextResponse.json({ success: true });
     } else {

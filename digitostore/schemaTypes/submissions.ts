@@ -34,8 +34,8 @@ export default defineType({
     }),
     // ADD THIS NEW FIELD
     defineField({
-        name: 'merchantTransactionId',
-        title: 'Merchant Transaction ID',
+        name: 'orderId',
+        title: 'Razorpay Order ID',
         type: 'string',
     }),
     defineField({

@@ -41,47 +41,38 @@ export default function RequestForm({ documentTitle, documentId, onClose }: Requ
   });
 
   const onSubmit: SubmitHandler<FormInputs> = async (formData) => {
-    try {
-      const orderResponse = await fetch('/api/initiate-payment', { method: 'POST' });
-      const orderResult = await orderResponse.json();
-      if (!orderResponse.ok) throw new Error(orderResult.error);
+  try {
+    // 1. Send the documentId to the backend right at the start
+    const orderResponse = await fetch('/api/initiate-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ documentId: documentId, formData: formData }),
+    });
 
-      const options = {
-        key: orderResult.keyId,
-        amount: orderResult.amount,
-        currency: 'INR',
-        name: 'Your Client Brand',
-        description: `Payment for ${documentTitle}`,
-        order_id: orderResult.orderId,
-        handler: async function (response: RazorpayResponse) {
-          try {
-            const verificationResponse = await fetch('/api/payment-verification', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ...response, formData, documentId }),
-            });
-            const verificationResult = await verificationResponse.json();
-            if (verificationResult.success) {
-              toast.success('Payment verified successfully!');
-              window.location.href = '/payment-success';
-            } else {
-              throw new Error(verificationResult.error);
-            }
-          } catch (error) {
-            toast.error(String(error));
-            window.location.href = '/payment-failure';
-          }
-        },
-        prefill: { name: formData.name, email: formData.email },
-        theme: { color: '#3399cc' },
-      };
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-    } catch (error) {
-      console.error('Submission Error:', error);
-      toast.error(String(error));
-    }
-  };
+    const orderResult = await orderResponse.json();
+    if (!orderResponse.ok) throw new Error(orderResult.error);
+
+    // 2. Use the dynamically priced order details from the server
+    const options = {
+      key: orderResult.keyId,
+      amount: orderResult.amount,
+      currency: 'INR',
+      name: 'Your Client Brand',
+      description: `Payment for ${documentTitle}`,
+      order_id: orderResult.orderId,
+      handler: async function (response: RazorpayResponse) {
+        // ... (your verification logic is correct)
+      },
+      prefill: { name: formData.name, email: formData.email },
+      theme: { color: '#3399cc' },
+    };
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  } catch (error) {
+    console.error('Submission Error:', error);
+    toast.error(String(error));
+  }
+};
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
