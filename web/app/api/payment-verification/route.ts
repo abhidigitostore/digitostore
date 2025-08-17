@@ -86,10 +86,10 @@ export async function POST(request: NextRequest) {
       console.log("VERIFICATION API: Fetched file URL. Preparing to send email.");
 
       await transporter.sendMail({
-          from: `"Your Brand Name" <${process.env.GMAIL_EMAIL}>`,
+          from: `"AutoMeta AI" <${process.env.GMAIL_EMAIL}>`,
           to: submission.email,
           subject: 'Your document is ready for download!',
-          html: `<h1>Thank you!</h1><p>Download your file here: <a href="${doc.fileUrl}?dl=">Download Now</a></p>`,
+          html: `<h1>Thank you!for using our services. </h1><p>Download your file here: <a href="${doc.fileUrl}?dl=">Download Now</a></p>`,
       });
       console.log("VERIFICATION API: Email sent successfully.");
       return NextResponse.json({ success: true });
