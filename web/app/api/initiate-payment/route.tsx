@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       consent: formData.consent,
       paymentStatus: 'pending',
       orderId: order.id, // Save the Razorpay Order ID
-      requestedDoc: { _type: 'reference', _ref: documentId },
+      requestedDoc: { _type: 'reference', _ref: documentId, _weak: true },
     });
 
     // 3. Return order details to the frontend

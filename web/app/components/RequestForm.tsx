@@ -57,12 +57,28 @@ export default function RequestForm({ documentTitle, documentId, onClose }: Requ
       key: orderResult.keyId,
       amount: orderResult.amount,
       currency: 'INR',
-      name: 'Your Client Brand',
+      name: 'AutoMeta AI',
       description: `Payment for ${documentTitle}`,
       order_id: orderResult.orderId,
       handler: async function (response: RazorpayResponse) {
-        // ... (your verification logic is correct)
-      },
+          try {
+            const verificationResponse = await fetch('/api/payment-verification', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ...response, formData, documentId }),
+            });
+            const verificationResult = await verificationResponse.json();
+            if (verificationResult.success) {
+              toast.success('Payment verified successfully!');
+              window.location.href = '/payment-success';
+            } else {
+              throw new Error(verificationResult.error);
+            }
+          } catch (error) {
+            toast.error(String(error));
+            window.location.href = '/payment-failure';
+          }
+        },
       prefill: { name: formData.name, email: formData.email },
       theme: { color: '#3399cc' },
     };

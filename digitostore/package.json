@@ -16,6 +16,8 @@
   ],
   "dependencies": {
     "@sanity/vision": "^4.4.1",
+    "npm-check-updates": "^18.0.2",
+    "npm-upgrade": "^3.1.2",
     "react": "^19.1",
     "react-dom": "^19.1",
     "sanity": "^4.4.1",
