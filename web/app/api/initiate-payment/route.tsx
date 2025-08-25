@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Razorpay from 'razorpay';
 import { createClient } from '@sanity/client';
+import { randomBytes } from 'crypto';
 
 const writeClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -28,11 +29,15 @@ export async function POST(request: NextRequest) {
 
     const amountInPaise = Math.round(doc.price * 100);
 
+    // A more robust, unique receipt ID
+    const uniqueId = randomBytes(6).toString('hex');
+    const receiptId = `receipt_${Date.now()}_${uniqueId}`;
+
     // 1. Create the Razorpay Order first
     const orderOptions = {
       amount: amountInPaise,
       currency: 'INR',
-      receipt: `receipt_${Date.now()}`,
+      receipt: receiptId,
     };
     const order = await razorpay.orders.create(orderOptions);
 
