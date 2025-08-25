@@ -10,12 +10,14 @@ interface Document {
   _id: string;
   title: string;
   description: string;
+  price : number;
 }
 
 const query = `*[_type == "documents"]{
   _id,
   title,
-  description
+  description,
+  price
 }`;
 
 export default function Home() {
@@ -41,11 +43,12 @@ export default function Home() {
           // Make the card a button to trigger the modal
           <button
             key={doc._id}
-            onClick={() => setSelectedDoc(doc)}
+            onClick={() => {setSelectedDoc(doc);}}
             className="border p-4 rounded-lg shadow-md text-left hover:ring-2 hover:ring-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <h2 className="text-2xl font-semibold mb-2">{doc.title}</h2>
             <p className="text-gray-700">{doc.description}</p>
+            <p className="text-grey-700"><b>Price : ₹{doc.price} INR</b></p>
           </button>
         ))}
       </div>
