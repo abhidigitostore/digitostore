@@ -26,5 +26,19 @@ export default defineType({
       title: 'Data File',
       type: 'file',
     }),
+    defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'reference',
+      to: [{type: 'category'}], // This links it to the 'category' schema we created
+    }),
+    defineField({
+      name: 'mainImage',
+      title: 'Main image',
+      type: 'image',
+      options: {
+        hotspot: true, // This allows for better image cropping in the Studio
+      },
+    }),
   ],
 })

@@ -4,6 +4,7 @@ import {visionTool} from '@sanity/vision'
 
 import documents from './schemaTypes/documents'
 import submissions from './schemaTypes/submissions'
+import category from './schemaTypes/category'
 
 export default defineConfig({
   name: 'default',
@@ -12,11 +13,8 @@ export default defineConfig({
   projectId: 'lhckr2ny',
   dataset: 'production',
   schema: {
-    // types: schemaTypes,
-    // 2. Add your schemas to the array
-    types: [documents, submissions],
+    // 2. Add the category to the types array
+    types: [documents, submissions, category],
   },
   plugins: [structureTool(), visionTool()],
-  
 })
-

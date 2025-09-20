@@ -1,4 +1,4 @@
-// studio/schemaTypes/submission.ts
+// studio/schemaTypes/submissions.ts
 import {defineField, defineType} from 'sanity'
 
 export default defineType({
@@ -32,18 +32,20 @@ export default defineType({
         type: 'string',
         initialValue: 'pending',
     }),
-    // ADD THIS NEW FIELD
     defineField({
         name: 'orderId',
         title: 'Razorpay Order ID',
         type: 'string',
     }),
     defineField({
-        name: 'requestedDoc',
-        title: 'Requested Document',
-        type: 'reference',
-        to: {type: 'documents'},
-        weak: true, // <-- ADD THIS LINE
+        name: 'requestedDocs', 
+        title: 'Requested Documents',
+        type: 'array', 
+        of: [{ 
+            type: 'reference',
+            to: {type: 'documents'},
+            weak: true,
+        }]
     }),
   ],
 })
