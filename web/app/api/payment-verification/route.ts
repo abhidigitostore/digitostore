@@ -21,7 +21,8 @@ const transporter = nodemailer.createTransport({
 });
 export async function POST(request: NextRequest) {
   try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, formData, documentId } = await request.json();
+    // removed documentId
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, formData } = await request.json();
     console.log("VERIFICATION API: Received data from frontend.", { razorpay_order_id, formData });
     
     const key_secret = process.env.RAZORPAY_KEY_SECRET!;
