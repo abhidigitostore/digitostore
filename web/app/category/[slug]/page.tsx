@@ -19,10 +19,10 @@ const query = `*[_type == "category" && slug.current == $slug][0]{
   }
 }`;
 
-export default async function CategoryPage({ params }: Params) {
-  const { slug } = await params;
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params; // Await the promise to get the actual object
+  const { slug } = resolvedParams;
   const categoryData = await client.fetch(query, { slug });
-  // console.log(categoryData[0]);
   if (!categoryData) {
     // You can add a proper 404 page later
     return <div>Category not found</div>;
