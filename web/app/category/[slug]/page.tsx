@@ -2,11 +2,11 @@
 import { client } from '@/sanity/client';
 import CategoryClientPage from './CategoryClientPage';
 
-interface Params {
-  params: {
-    slug: string;
-  };
-}
+// interface Params {
+//   params: {
+//     slug: string;
+//   };
+// }
 
 const query = `*[_type == "category" && slug.current == $slug][0]{
   title,
