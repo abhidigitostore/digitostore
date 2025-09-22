@@ -96,6 +96,12 @@ export default function AdminPage() {
           >
             Upload New Document
           </Link>
+          <Link
+            href="/admin/categories"
+            className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 text-center"
+          >
+            Manage Categories
+          </Link>
           <button
             onClick={() => signOut({ callbackUrl: '/' })}
             className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
