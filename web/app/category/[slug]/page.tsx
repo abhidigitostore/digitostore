@@ -2,12 +2,6 @@
 import { client } from '@/sanity/client';
 import CategoryClientPage from './CategoryClientPage';
 
-// interface Params {
-//   params: {
-//     slug: string;
-//   };
-// }
-
 const query = `*[_type == "category" && slug.current == $slug][0]{
   title,
   "documents": *[_type == "documents" && references(^._id)] | order(_createdAt desc){
