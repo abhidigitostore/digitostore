@@ -24,7 +24,7 @@ interface Submission {
   name: string;
   email: string;
   paymentStatus: 'pending' | 'completed';
-  requestedDocTitle?: string;
+  requestedDocs?: { title: string }[]; // Changed to an array of objects
 }
 
 // Define a new type for our documents
@@ -38,21 +38,21 @@ export default function AdminPage() {
   const [documents, setDocuments] = useState<Document[]>([]);
 
   const fetchAllData = async () => {
+    // SUBMISSIONS QUERY
     const submissionsQuery = `*[_type == "submissions"] | order(_createdAt desc) {
       _id,
       name,
       email,
       paymentStatus,
-      "requestedDocTitle": requestedDoc->title
+      "requestedDocs": requestedDocs[]->{title}
     }`;
     const documentsQuery = `*[_type == "documents"] | order(_createdAt desc) { _id, title }`;
-
-    // 3. Use the new adminClient to fetch all data
+    
     const [submissionsData, documentsData] = await Promise.all([
       adminClient.fetch(submissionsQuery),
       adminClient.fetch(documentsQuery),
     ]);
-
+    
     setSubmissions(submissionsData);
     setDocuments(documentsData);
   };
