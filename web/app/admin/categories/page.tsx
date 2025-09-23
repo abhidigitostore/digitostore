@@ -6,6 +6,7 @@ import { createClient } from '@sanity/client';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { toast, Toaster } from 'react-hot-toast';
+import { routeModule } from 'next/dist/build/templates/app-page';
 
 const adminClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -56,6 +57,35 @@ export default function CategoriesPage() {
     }
   };
 
+  // delete category - 
+  // Need to modity this logic
+      // Passed category Id from below return components button
+      // Now -
+        //create a delete category route
+        //add it to here and remove /api/delete-document
+
+        
+  const handleDelete = async (categoryId: string) => {
+    if (window.confirm('Are you sure you want to delete this category? This action cannot be undone.')) {
+      try {
+        const response = await fetch('/api/delete-category', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ categoryId }),
+        });
+
+        if (!response.ok) throw new Error('Failed to delete');
+
+        toast.success('Category deleted successfully!');
+        // Refresh the list of documents and submissions
+        fetchCategories();
+      } catch (error) {
+        toast.error('Failed to delete category.');
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <div className="p-4 md:p-8">
       <Toaster />
@@ -92,17 +122,23 @@ export default function CategoriesPage() {
       </div>
 
       {/* List of existing categories */}
-      <div>
+      <div className="mb-12">
         <h2 className="text-2xl font-semibold mb-4">Existing Categories</h2>
-        <div className="bg-white p-4 rounded-lg border space-y-2">
+        <div className="bg-white p-4 rounded-lg border space-y-3">
           {categories.length > 0 ? (
             categories.map((cat) => (
-              <div key={cat._id} className="p-2 border-b last:border-b-0">
+              <div key={cat._id} className="flex justify-between items-center p-2 border-b last:border-b-0">
                 <span>{cat.title}</span>
+                <button
+                  onClick={() => handleDelete(cat._id)}
+                  className="px-3 py-1 bg-red-100 text-red-700 text-sm rounded hover:bg-red-200"
+                >
+                  Delete
+                </button>
               </div>
             ))
           ) : (
-            <p>No categories found.</p>
+            <p>No documents found.</p>
           )}
         </div>
       </div>
