@@ -1,5 +1,6 @@
 // web/app/components/Navbar.tsx
 import Link from 'next/link';
+import CartIcon from './CartIcon';
 
 export default function Navbar() {
   return (
@@ -11,7 +12,7 @@ export default function Navbar() {
           <h1 className="text-xl font-bold">AutoMeta AI</h1>
           <p className="text-sm text-gray-400">AI Automations & Data Services</p>
         </div>
-
+        <div className="flex md:text-right flex-center">
         {/* Right Side: Main Website Link */}
         <Link 
           href="https://www.autometa-ai.com/"
@@ -21,6 +22,8 @@ export default function Navbar() {
         >
           Services and Products
         </Link>
+        <CartIcon />  {/* 2. Add the CartIcon component here */}
+        </div>
       </div>
     </nav>
   );
