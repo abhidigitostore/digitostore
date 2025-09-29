@@ -21,7 +21,8 @@ interface CartState {
 // Shape of the actions you can dispatch
 type CartAction =
   | { type: 'ADD_ITEM'; payload: CartItem }
-  | { type: 'REMOVE_ITEM'; payload: { _id: string } };
+  | { type: 'REMOVE_ITEM'; payload: { _id: string } }
+  | { type: 'CLEAR_CART' };
 
 // Shape of the context value
 interface CartContextType {
@@ -61,6 +62,10 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
       return { ...state, cartItems };
+    }
+    case 'CLEAR_CART': {
+      localStorage.removeItem('cartItems');
+      return { ...state, cartItems: [] };
     }
     default:
       return state;
