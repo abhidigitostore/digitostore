@@ -56,15 +56,7 @@ export default function CategoriesPage() {
       console.error(error);
     }
   };
-
-  // delete category - 
-  // Need to modity this logic
-      // Passed category Id from below return components button
-      // Now -
-        //create a delete category route
-        //add it to here and remove /api/delete-document
-
-        
+    
   const handleDelete = async (categoryId: string) => {
     if (window.confirm('Are you sure you want to delete this category? This action cannot be undone.')) {
       try {
