@@ -37,7 +37,7 @@ export default function CartPage() {
     return (
       <div className="flex flex-col items-center justify-center h-[60vh] text-center">
         <h1 className="text-3xl font-bold mb-4">Your Cart is Empty</h1>
-        <p className="text-gray-600 mb-8">Looks like you haven't added anything to your cart yet.</p>
+        <p className="text-gray-600 mb-8">Please add items to cart for purchase.</p>
         <Link 
           href="/" 
           className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"

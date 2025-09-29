@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     };
 
     // Create the document only ONCE
-    const newCategory = await writeClient.create({
+    await writeClient.create({
       _type: 'category',
       title: title,
       slug: slug,

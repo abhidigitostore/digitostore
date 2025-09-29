@@ -6,7 +6,6 @@ import { createClient } from '@sanity/client';
 import Link from 'next/link';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { toast, Toaster } from 'react-hot-toast';
-import { routeModule } from 'next/dist/build/templates/app-page';
 
 const adminClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
